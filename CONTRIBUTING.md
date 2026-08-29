@@ -21,18 +21,18 @@ make test
 
 ## Contribution workflow
 
-The `main` branch is protected: every change lands through a pull request, required status
+The `master` branch is protected: every change lands through a pull request, required status
 checks must pass, and protection is enforced for everyone — including the maintainer. There
-are no direct pushes to `main`.
+are no direct pushes to `master`.
 
 1. Fork the repo on GitHub, then clone your fork (command above).
-2. Create a descriptively named feature branch from `main`.
+2. Create a descriptively named feature branch from `master`.
 3. Make your changes as small, focused commits, each leaving the tree buildable.
 4. Run `make lint` and `make test` — both must pass.
 5. If your change is user-facing (a feature, fix, or behavior change), add one bullet under
    the `Unreleased` heading in [CHANGELOG.md](CHANGELOG.md).
 6. Push the branch to your fork.
-7. Open a pull request against `main` here.
+7. Open a pull request against `master` here.
 
 A PR can merge only when every required check passes (`Test`, `Lint`, `Build`) and all conversation
 threads are resolved.
@@ -66,7 +66,7 @@ Releases are cut by pushing a tag; GitHub Actions does the rest (`.github/workfl
    update the compare links at the bottom of the file — add
    `[x.y.z]: https://github.com/Laaaaksh/escalight/compare/v<prev>...vx.y.z` and repoint
    `[Unreleased]` at `compare/vx.y.z...HEAD`.
-3. Land those changelog edits on `main` through a pull request (see the contribution workflow
+3. Land those changelog edits on `master` through a pull request (see the contribution workflow
    above), then tag and push:
 
    ```bash
@@ -92,7 +92,7 @@ no changelog entry fails the release rather than publishing empty notes.
   a block that `layout.html` wraps. See `render.go` for how the set is assembled — a new page
   template needs adding to `pageNames` in `render.go`.
 - New database migrations are additive SQL files in `internal/db/migrations/`, numbered
-  `NNNN_description.sql`, applied in order once and never edited after landing on `main`.
+  `NNNN_description.sql`, applied in order once and never edited after landing on `master`.
 - Comments explain *why*, not *what* — see the top-level CLAUDE.md-style guidance in this
   repo's code for the house style if you're unsure.
 

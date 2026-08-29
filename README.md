@@ -76,21 +76,8 @@ platform: paging that works, self-hosted, free.
 
 ## Install
 
-**Docker (recommended):**
-
-```bash
-docker run -d --name escalight -p 8080:8080 -v escalight-data:/data \
-  ghcr.io/laaaaksh/escalight:latest
-```
-
-**From a release binary:** download from
-[GitHub Releases](https://github.com/Laaaaksh/escalight/releases), then:
-
-```bash
-./escalight serve
-```
-
-**From source:**
+**From source** (the only path available today — no tagged release has been published yet,
+so the Docker image and release binaries below don't exist):
 
 ```bash
 git clone https://github.com/Laaaaksh/escalight.git
@@ -98,6 +85,11 @@ cd escalight
 go build -o escalight .
 ./escalight serve
 ```
+
+**Docker / release binary (coming soon):** once the first tagged release ships, `docker run
+ghcr.io/laaaaksh/escalight:latest` and a binary on the
+[Releases](https://github.com/Laaaaksh/escalight/releases) page will also work — see
+[CONTRIBUTING.md](CONTRIBUTING.md#releases) for how a release is cut.
 
 ## Usage
 

@@ -5,6 +5,8 @@ All notable changes to Escalight are documented in this file. Format is based on
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-30
+
 ### Added
 - Escalation policies: ordered, multi-step, with per-step notification channels and an
   optional repeat.
@@ -18,7 +20,5 @@ All notable changes to Escalight are documented in this file. Format is based on
 - Incident timeline audit trail.
 - Single SQLite-backed binary; email+password auth with a first-run setup flow.
 
-<!-- No tagged release yet. Once v0.1.0 is cut, add:
 [Unreleased]: https://github.com/Laaaaksh/escalight/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/Laaaaksh/escalight/releases/tag/v0.1.0
-per the release procedure in CONTRIBUTING.md. -->
