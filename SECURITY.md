@@ -3,7 +3,7 @@
 ## Supported versions
 
 Escalight is a young project. Security fixes are made against the **latest release** and
-`main` only — please confirm you can reproduce the issue on the newest release before
+`master` only — please confirm you can reproduce the issue on the newest release before
 reporting.
 
 | Version        | Supported |
