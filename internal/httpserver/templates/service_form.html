@@ -1,0 +1,21 @@
+{{define "content"}}
+<h1>New service</h1>
+<div class="card">
+  {{if not .Policies}}
+  <p class="muted">You need an escalation policy before creating a service. <a href="/policies/new">Create one first</a>.</p>
+  {{else}}
+  <form method="post" action="/services">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" placeholder="Production API" required autofocus>
+    <label for="policy_id">Escalation policy</label>
+    <select id="policy_id" name="policy_id">
+      {{range .Policies}}<option value="{{.ID}}">{{.Name}}</option>{{end}}
+    </select>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Create</button>
+      <a class="btn" href="/services">Cancel</a>
+    </div>
+  </form>
+  {{end}}
+</div>
+{{end}}

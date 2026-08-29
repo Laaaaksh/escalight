@@ -1,0 +1,44 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>{{.Incident.Title}}</h1>
+  <span class="badge {{badgeClass .Incident.Status}}">{{.Incident.Status}}</span>
+</div>
+
+<div class="card">
+  <dl class="kv">
+    <dt>Service</dt><dd>{{.ServiceName}}</dd>
+    <dt>Source</dt><dd class="mono">{{.Incident.Source}}</dd>
+    <dt>Opened</dt><dd>{{friendlyTime .Incident.CreatedAt}}</dd>
+    {{if .Incident.Description}}<dt>Description</dt><dd>{{.Incident.Description}}</dd>{{end}}
+  </dl>
+
+  {{if ne .Incident.Status "resolved"}}
+  <div class="form-actions">
+    {{if eq .Incident.Status "triggered"}}
+    <form method="post" action="/api/incidents/{{.Incident.ID}}/acknowledge">
+      <button class="btn btn-primary" type="submit">Acknowledge</button>
+    </form>
+    {{end}}
+    <form method="post" action="/api/incidents/{{.Incident.ID}}/resolve">
+      <button class="btn btn-ok" type="submit">Resolve</button>
+    </form>
+  </div>
+  {{end}}
+</div>
+
+<h2>Timeline</h2>
+<div class="card">
+  {{if not .Events}}
+  <p class="muted">No events yet.</p>
+  {{else}}
+  <ul class="timeline">
+    {{range .Events}}
+    <li>
+      <div class="ts">{{friendlyTime .CreatedAt}}</div>
+      <div><strong>{{.EventType}}</strong>{{if .Actor}} — {{.Actor}}{{end}}{{if .Detail}} <span class="muted">({{.Detail}})</span>{{end}}</div>
+    </li>
+    {{end}}
+  </ul>
+  {{end}}
+</div>
+{{end}}

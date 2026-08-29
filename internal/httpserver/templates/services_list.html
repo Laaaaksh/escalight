@@ -1,0 +1,27 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Services</h1>
+  <a class="btn btn-primary" href="/services/new">New service</a>
+</div>
+
+{{if not .Services}}
+<div class="card"><div class="empty-state">No services yet. A service ties an incoming alert source to an escalation policy.</div></div>
+{{else}}
+{{range .Services}}
+<div class="card">
+  <div class="page-header" style="margin-top:0">
+    <h2 style="margin:0">{{.Name}}</h2>
+    <form method="post" action="/services/{{.ID}}/delete" onsubmit="return confirm('Delete this service?')">
+      <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+    </form>
+  </div>
+  <p class="muted" style="margin-top:0">Escalation policy: {{.PolicyName}}</p>
+  <div class="kv">
+    <dt>Generic webhook</dt><dd><code class="copy-key">{{.GenericURL}}</code></dd>
+    <dt>Alertmanager</dt><dd><code class="copy-key">{{.AlertmanagerURL}}</code></dd>
+    <dt>Email-in</dt><dd><code class="copy-key">{{.EmailInURL}}</code></dd>
+  </div>
+</div>
+{{end}}
+{{end}}
+{{end}}

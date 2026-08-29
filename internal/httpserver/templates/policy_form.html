@@ -1,0 +1,72 @@
+{{define "content"}}
+<h1>{{if .Editing}}Edit policy{{else}}New policy{{end}}</h1>
+
+<div class="card">
+<form method="post" action="{{if .Editing}}/policies/{{.Policy.ID}}{{else}}/policies{{end}}">
+  <label for="name">Name</label>
+  <input type="text" id="name" name="name" value="{{.Policy.Name}}" required>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description">{{.Policy.Description}}</textarea>
+
+  <label for="repeat">Repeat the whole policy this many times after the last step (0 = stop escalating)</label>
+  <input type="number" id="repeat" name="repeat" min="0" value="{{.Policy.Repeat}}" style="width:120px">
+
+  <h2>Steps, in order</h2>
+  <div id="steps">
+    {{range $i, $step := .Steps}}
+    <div class="card step-row">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <strong>Step {{add1 $i}}</strong>
+        <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.step-row').remove()">Remove</button>
+      </div>
+      <label>Wait before notifying this step (minutes)</label>
+      <input type="number" name="step_{{$i}}_wait" min="0" value="{{$step.WaitMinutes}}" style="width:120px">
+      <label>Notify</label>
+      <select name="step_{{$i}}_target">
+        {{range $.Targets}}<option value="{{.Value}}" {{if eq .Value $step.Target}}selected{{end}}>{{.Label}}</option>{{end}}
+      </select>
+      <label>Via</label>
+      <div class="checkbox-row"><input type="checkbox" id="step_{{$i}}_via_email" name="step_{{$i}}_via_email" {{if $step.ViaEmail}}checked{{end}}><label for="step_{{$i}}_via_email">Email</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="step_{{$i}}_via_push" name="step_{{$i}}_via_push" {{if $step.ViaPush}}checked{{end}}><label for="step_{{$i}}_via_push">Web push</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="step_{{$i}}_via_slack" name="step_{{$i}}_via_slack" {{if $step.ViaSlack}}checked{{end}}><label for="step_{{$i}}_via_slack">Slack</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="step_{{$i}}_via_discord" name="step_{{$i}}_via_discord" {{if $step.ViaDiscord}}checked{{end}}><label for="step_{{$i}}_via_discord">Discord</label></div>
+    </div>
+    {{end}}
+  </div>
+  <button type="button" class="btn" onclick="addStep()">+ Add step</button>
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Save policy</button>
+    <a class="btn" href="/policies">Cancel</a>
+  </div>
+</form>
+</div>
+
+<script>
+const TARGET_OPTIONS = [{{range .Targets}}{value:"{{.Value}}", label:"{{.Label}}"},{{end}}];
+let stepCount = {{len .Steps}};
+function addStep() {
+  const i = stepCount++;
+  const div = document.createElement('div');
+  div.className = 'card step-row';
+  const opts = TARGET_OPTIONS.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+  div.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center">
+      <strong>Step ${i + 1}</strong>
+      <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('.step-row').remove()">Remove</button>
+    </div>
+    <label>Wait before notifying this step (minutes)</label>
+    <input type="number" name="step_${i}_wait" min="0" value="5" style="width:120px">
+    <label>Notify</label>
+    <select name="step_${i}_target">${opts}</select>
+    <label>Via</label>
+    <div class="checkbox-row"><input type="checkbox" name="step_${i}_via_email" checked><label>Email</label></div>
+    <div class="checkbox-row"><input type="checkbox" name="step_${i}_via_push" checked><label>Web push</label></div>
+    <div class="checkbox-row"><input type="checkbox" name="step_${i}_via_slack"><label>Slack</label></div>
+    <div class="checkbox-row"><input type="checkbox" name="step_${i}_via_discord"><label>Discord</label></div>
+  `;
+  document.getElementById('steps').appendChild(div);
+}
+</script>
+{{end}}

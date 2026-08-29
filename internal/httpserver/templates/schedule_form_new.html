@@ -1,0 +1,13 @@
+{{define "content"}}
+<h1>New schedule</h1>
+<div class="card">
+  <form method="post" action="/schedules">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" placeholder="Primary on-call" required autofocus>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Create</button>
+      <a class="btn" href="/schedules">Cancel</a>
+    </div>
+  </form>
+</div>
+{{end}}

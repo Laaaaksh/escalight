@@ -1,0 +1,43 @@
+{{define "content"}}
+<h1>Users</h1>
+
+{{if .Error}}<div class="alert alert-error">{{.Error}}</div>{{end}}
+
+<div class="card" style="padding:0">
+  <table>
+    <thead><tr><th>Name</th><th>Email</th><th>Admin</th><th>Slack ID</th></tr></thead>
+    <tbody>
+      {{range .Users}}
+      <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Email}}</td>
+        <td>{{if .IsAdmin}}yes{{else}}—{{end}}</td>
+        <td class="mono muted">{{if .SlackUserID}}{{.SlackUserID}}{{else}}—{{end}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+
+<h2>Add a user</h2>
+<div class="card">
+  <form method="post" action="/users">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+    <label for="password">Initial password</label>
+    <input type="password" id="password" name="password" minlength="8" required>
+    <div class="field-hint">Share this with them directly; there's no email invite flow in v1.</div>
+    <label for="slack_user_id">Slack user ID (optional)</label>
+    <input type="text" id="slack_user_id" name="slack_user_id" placeholder="U012ABC3DE">
+    <div class="checkbox-row">
+      <input type="checkbox" id="is_admin" name="is_admin">
+      <label for="is_admin">Admin (can manage users)</label>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Add user</button>
+    </div>
+  </form>
+</div>
+{{end}}

@@ -1,0 +1,39 @@
+{{define "layout.html"}}
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escalight</title>
+  <link rel="icon" href="/static/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0f14">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/htmx.min.js"></script>
+</head>
+<body>
+{{if .User}}
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="/incidents">⚡ Escalight</a>
+    <div class="nav-links">
+      <a href="/incidents" class="{{if eq .Active "incidents"}}active{{end}}">Incidents</a>
+      <a href="/schedules" class="{{if eq .Active "schedules"}}active{{end}}">Schedules</a>
+      <a href="/policies" class="{{if eq .Active "policies"}}active{{end}}">Policies</a>
+      <a href="/services" class="{{if eq .Active "services"}}active{{end}}">Services</a>
+      {{if .User.Admin}}<a href="/users" class="{{if eq .Active "users"}}active{{end}}">Users</a>{{end}}
+      <a href="/settings" class="{{if eq .Active "settings"}}active{{end}}">Settings</a>
+    </div>
+    <div class="nav-user">
+      <span>{{.User.Name}}</span>
+      <form method="post" action="/logout" style="margin:0"><button class="btn btn-sm" type="submit">Log out</button></form>
+    </div>
+  </div>
+</nav>
+{{end}}
+<div class="container">
+  {{template "content" .}}
+</div>
+</body>
+</html>
+{{end}}

@@ -1,0 +1,27 @@
+# Build output
+escalight
+dist/
+
+# Go
+*.test
+*.out
+vendor/
+
+# Runtime data (SQLite database + WAL/SHM files)
+*.db
+*.db-shm
+*.db-wal
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Config (local dev)
+.env
+
+# Agent run state
+.gnhf/

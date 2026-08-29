@@ -1,0 +1,21 @@
+{{define "content"}}
+<div class="auth-wrap">
+  <div class="auth-brand">⚡ Escalight</div>
+  <div class="card">
+    <p class="muted" style="margin-top:0">Welcome — create the first admin account to get started.</p>
+    {{if .Error}}<div class="alert alert-error">{{.Error}}</div>{{end}}
+    <form method="post" action="/setup">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required autofocus>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" minlength="8" required>
+      <div class="field-hint">At least 8 characters.</div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" style="width:100%">Create admin account</button>
+      </div>
+    </form>
+  </div>
+</div>
+{{end}}

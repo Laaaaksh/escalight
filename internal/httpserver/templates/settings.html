@@ -1,0 +1,110 @@
+{{define "content"}}
+<h1>Settings</h1>
+
+<h2>Web push</h2>
+<div class="card">
+  <p class="muted" style="margin-top:0">Get paged as a browser/phone push notification, with an "Acknowledge" button right on the notification. Free — no telephony provider needed.</p>
+  <div id="push-status" class="muted">Checking status…</div>
+  <div class="form-actions">
+    <button class="btn btn-primary" id="push-enable" type="button">Enable push on this device</button>
+    <button class="btn" id="push-test" type="button" style="display:none">Send test notification</button>
+  </div>
+</div>
+
+<h2>Slack</h2>
+<div class="card">
+  {{if .SlackConfigured}}
+  <p class="muted" style="margin-top:0">Slack is configured on this server. Link your account so escalations @-mention you and slash-command acks work.</p>
+  {{else}}
+  <p class="muted" style="margin-top:0">Slack isn't configured on this server yet (set <code>ESCALIGHT_SLACK_WEBHOOK_URL</code> and <code>ESCALIGHT_SLACK_SIGNING_SECRET</code>).</p>
+  {{end}}
+  <form method="post" action="/settings/slack">
+    <label for="slack_user_id">Your Slack user ID</label>
+    <input type="text" id="slack_user_id" name="slack_user_id" value="{{.User.SlackUserID}}" placeholder="U012ABC3DE">
+    <div class="field-hint">Slack profile → "..." menu → "Copy member ID".</div>
+    <div class="form-actions"><button class="btn" type="submit">Save</button></div>
+  </form>
+</div>
+
+<h2>Discord</h2>
+<div class="card">
+  {{if .DiscordConfigured}}
+  <p class="muted" style="margin:0">Discord is configured on this server (posts to the configured webhook channel).</p>
+  {{else}}
+  <p class="muted" style="margin:0">Discord isn't configured on this server yet (set <code>ESCALIGHT_DISCORD_WEBHOOK_URL</code>).</p>
+  {{end}}
+</div>
+
+<h2>Email</h2>
+<div class="card">
+  {{if .EmailConfigured}}
+  <p class="muted" style="margin:0">Email is configured on this server. Escalations email you at your account address.</p>
+  {{else}}
+  <p class="muted" style="margin:0">Email isn't configured on this server yet (set <code>ESCALIGHT_SMTP_HOST</code> and friends).</p>
+  {{end}}
+</div>
+
+<script>
+const VAPID_PUBLIC_KEY = "{{.VAPIDPublicKey}}";
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const raw = atob(base64);
+  return Uint8Array.from([...raw].map((c) => c.charCodeAt(0)));
+}
+
+const statusEl = document.getElementById("push-status");
+const enableBtn = document.getElementById("push-enable");
+const testBtn = document.getElementById("push-test");
+
+async function refreshPushStatus() {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+    statusEl.textContent = "This browser doesn't support web push.";
+    enableBtn.disabled = true;
+    return;
+  }
+  const reg = await navigator.serviceWorker.register("/sw.js");
+  const sub = await reg.pushManager.getSubscription();
+  if (sub) {
+    statusEl.textContent = "Push is enabled on this device.";
+    enableBtn.textContent = "Disable push on this device";
+    testBtn.style.display = "inline-flex";
+  } else {
+    statusEl.textContent = "Push is not enabled on this device.";
+    enableBtn.textContent = "Enable push on this device";
+    testBtn.style.display = "none";
+  }
+  return sub;
+}
+
+enableBtn.addEventListener("click", async () => {
+  const reg = await navigator.serviceWorker.register("/sw.js");
+  const existing = await reg.pushManager.getSubscription();
+  if (existing) {
+    await fetch("/api/push/unsubscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ endpoint: existing.endpoint }) });
+    await existing.unsubscribe();
+    return refreshPushStatus();
+  }
+
+  const permission = await Notification.requestPermission();
+  if (permission !== "granted") {
+    statusEl.textContent = "Notification permission was denied.";
+    return;
+  }
+  const sub = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+  });
+  await fetch("/api/push/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(sub) });
+  refreshPushStatus();
+});
+
+testBtn.addEventListener("click", async () => {
+  const res = await fetch("/api/push/test", { method: "POST" });
+  statusEl.textContent = res.ok ? "Test notification sent — check your device." : "Failed to send test notification.";
+});
+
+refreshPushStatus();
+</script>
+{{end}}

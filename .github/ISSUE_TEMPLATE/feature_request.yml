@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest an idea for Escalight
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the on-call/paging task that is currently hard or impossible.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you would like to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds you've tried, or how PagerDuty/Opsgenie/GoAlert handle this.
+    validations:
+      required: false

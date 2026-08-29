@@ -1,0 +1,105 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>{{.Schedule.Name}}</h1>
+  <form method="post" action="/schedules/{{.Schedule.ID}}/delete" onsubmit="return confirm('Delete this schedule?')">
+    <button class="btn btn-danger btn-sm" type="submit">Delete schedule</button>
+  </form>
+</div>
+
+<h2>Rotation</h2>
+<div class="card">
+  <form method="post" action="/schedules/{{.Schedule.ID}}/rotation">
+    <label for="rotation_type">Type</label>
+    <select id="rotation_type" name="rotation_type" style="width:200px">
+      <option value="daily" {{if and .Schedule.Rotation (eq .Schedule.Rotation.RotationType "daily")}}selected{{end}}>Daily handoff</option>
+      <option value="weekly" {{if and .Schedule.Rotation (eq .Schedule.Rotation.RotationType "weekly")}}selected{{end}}>Weekly handoff</option>
+    </select>
+
+    <label for="start_at">Rotation start</label>
+    <input type="datetime-local" id="start_at" name="start_at" value="{{.StartAtLocal}}" style="width:260px" required>
+    <div class="field-hint">All times in Escalight are UTC for v1 (see README).</div>
+
+    <label>On-call order</label>
+    <div id="user-order">
+      {{if .Schedule.Rotation}}
+        {{range $uid := .Schedule.Rotation.UserOrder}}
+        <div class="checkbox-row" style="justify-content:space-between; max-width:340px">
+          <select name="user_order">
+            {{range $.Users}}<option value="{{.ID}}" {{if eq .ID $uid}}selected{{end}}>{{.Name}}</option>{{end}}
+          </select>
+          <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('div').remove()">Remove</button>
+        </div>
+        {{end}}
+      {{end}}
+    </div>
+    <button type="button" class="btn btn-sm" onclick="addUserOrderRow()">+ Add person</button>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Save rotation</button>
+    </div>
+  </form>
+</div>
+
+<h2>Next two weeks</h2>
+<div class="card">
+  {{if not .Schedule.Rotation}}
+  <p class="muted" style="margin:0">Set a rotation above to see the calendar.</p>
+  {{else}}
+  <div class="calendar-grid">
+    {{range .Calendar}}
+    <div class="calendar-day {{if .Override}}override{{end}}">
+      <div class="date">{{.Date}}</div>
+      <div class="who">{{.OnCall}}</div>
+    </div>
+    {{end}}
+  </div>
+  {{end}}
+</div>
+
+<h2>Manual overrides</h2>
+<div class="card">
+  {{if .Overrides}}
+  <table style="margin-bottom:16px">
+    <thead><tr><th>Who</th><th>From</th><th>To</th><th></th></tr></thead>
+    <tbody>
+      {{range .Overrides}}
+      <tr>
+        <td>{{.UserName}}</td>
+        <td>{{friendlyTime .StartAt}}</td>
+        <td>{{friendlyTime .EndAt}}</td>
+        <td>
+          <form method="post" action="/schedules/{{$.Schedule.ID}}/overrides/{{.ID}}/delete" style="display:inline">
+            <button class="btn btn-sm btn-danger" type="submit">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  {{end}}
+
+  <h3>Add override</h3>
+  <form method="post" action="/schedules/{{.Schedule.ID}}/overrides">
+    <label for="ov_user">Who</label>
+    <select id="ov_user" name="user_id" style="width:220px">{{range .Users}}<option value="{{.ID}}">{{.Name}}</option>{{end}}</select>
+    <label for="ov_start">From</label>
+    <input type="datetime-local" id="ov_start" name="start_at" style="width:260px" required>
+    <label for="ov_end">To</label>
+    <input type="datetime-local" id="ov_end" name="end_at" style="width:260px" required>
+    <div class="form-actions"><button class="btn" type="submit">Add override</button></div>
+  </form>
+</div>
+
+<script>
+const USERS = [{{range .Users}}{id:"{{.ID}}", name:"{{.Name}}"},{{end}}];
+function addUserOrderRow() {
+  const div = document.createElement('div');
+  div.className = 'checkbox-row';
+  div.style.justifyContent = 'space-between';
+  div.style.maxWidth = '340px';
+  const opts = USERS.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+  div.innerHTML = `<select name="user_order">${opts}</select> <button type="button" class="btn btn-sm btn-danger" onclick="this.closest('div').remove()">Remove</button>`;
+  document.getElementById('user-order').appendChild(div);
+}
+</script>
+{{end}}
