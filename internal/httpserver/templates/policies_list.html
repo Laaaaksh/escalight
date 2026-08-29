@@ -1,0 +1,30 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Escalation policies</h1>
+  <a class="btn btn-primary" href="/policies/new">New policy</a>
+</div>
+
+<div class="card" style="padding:0">
+  {{if not .Policies}}
+  <div class="empty-state">No policies yet. Create one, then attach it to a service.</div>
+  {{else}}
+  <table>
+    <thead><tr><th>Name</th><th>Description</th><th>Repeats</th><th></th></tr></thead>
+    <tbody>
+      {{range .Policies}}
+      <tr>
+        <td><a href="/policies/{{.ID}}/edit">{{.Name}}</a></td>
+        <td class="muted">{{.Description}}</td>
+        <td>{{.Repeat}}</td>
+        <td>
+          <form method="post" action="/policies/{{.ID}}/delete" onsubmit="return confirm('Delete this policy?')" style="display:inline">
+            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  {{end}}
+</div>
+{{end}}

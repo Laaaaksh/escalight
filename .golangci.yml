@@ -1,0 +1,23 @@
+version: "2"
+
+linters:
+  enable:
+    - errcheck
+    - staticcheck
+  settings:
+    errcheck:
+      exclude-functions:
+        # Deferred/best-effort cleanup where the error is genuinely
+        # inactionable at that point (already closing, already returning
+        # another error, or the response is already committed).
+        - (io.Closer).Close
+        - (*database/sql.DB).Close
+        - (*database/sql.Rows).Close
+        - (*database/sql.Tx).Rollback
+        - (*net/http.Server).Shutdown
+  exclusions:
+    rules:
+      # Test setup calls (fixture creation) fail loudly via the subsequent
+      # assertion anyway; checking every one adds noise, not safety.
+      - path: _test\.go$
+        linters: [errcheck]

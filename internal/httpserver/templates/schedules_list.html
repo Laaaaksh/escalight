@@ -1,0 +1,25 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Schedules</h1>
+  <a class="btn btn-primary" href="/schedules/new">New schedule</a>
+</div>
+
+<div class="card" style="padding:0">
+  {{if not .Schedules}}
+  <div class="empty-state">No schedules yet. Create one, set a rotation, then point an escalation step at "On-call: &lt;schedule&gt;".</div>
+  {{else}}
+  <table>
+    <thead><tr><th>Name</th><th>On call now</th><th>Rotation</th></tr></thead>
+    <tbody>
+      {{range .Schedules}}
+      <tr class="clickable-row" onclick="window.location='/schedules/{{.ID}}'">
+        <td>{{.Name}}</td>
+        <td>{{index $.OnCallNow .ID}}</td>
+        <td class="muted">{{if .Rotation}}{{.Rotation.RotationType}}{{else}}not configured{{end}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  {{end}}
+</div>
+{{end}}

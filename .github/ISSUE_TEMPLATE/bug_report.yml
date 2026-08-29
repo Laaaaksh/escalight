@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a problem with Escalight
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: |
+        Steps to reproduce the problem, and what you expected vs what actually happened.
+      placeholder: |
+        1. Fire an alert at the generic webhook
+        2. Open the incident
+        3. Click Acknowledge
+        4. See error
+    validations:
+      required: true
+  - type: input
+    id: escalight-version
+    attributes:
+      label: Escalight version
+      description: Output of `escalight version`.
+      placeholder: "escalight v0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: deploy-method
+    attributes:
+      label: Deployment method
+      options:
+        - Docker / docker-compose
+        - Binary (go run / release download)
+        - Built from source
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, and which notification channels you have configured (email/Slack/Discord/push).
+      placeholder: "Ubuntu 24.04, Slack + web push configured"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Optional but helpful — paste the server's stdout around when this happened.
+      render: shell
+    validations:
+      required: false

@@ -1,0 +1,34 @@
+{{define "content"}}
+<div class="page-header">
+  <h1>Incidents</h1>
+</div>
+
+<div style="display:flex; gap:8px; margin-bottom:16px">
+  <a class="btn btn-sm {{if eq .Status "triggered"}}btn-primary{{end}}" href="/incidents?status=triggered">Triggered</a>
+  <a class="btn btn-sm {{if eq .Status "acknowledged"}}btn-primary{{end}}" href="/incidents?status=acknowledged">Acknowledged</a>
+  <a class="btn btn-sm {{if eq .Status "resolved"}}btn-primary{{end}}" href="/incidents?status=resolved">Resolved</a>
+  <a class="btn btn-sm {{if eq .Status "all"}}btn-primary{{end}}" href="/incidents?status=all">All</a>
+</div>
+
+<div class="card" style="padding:0">
+  {{if not .Incidents}}
+  <div class="empty-state">No incidents here. Fire a test alert at a service's webhook URL to see one appear.</div>
+  {{else}}
+  <table>
+    <thead>
+      <tr><th>Status</th><th>Title</th><th>Service</th><th>Opened</th></tr>
+    </thead>
+    <tbody>
+      {{range .Incidents}}
+      <tr class="clickable-row" onclick="window.location='/incidents/{{.ID}}'">
+        <td><span class="badge {{badgeClass .Status}}">{{.Status}}</span></td>
+        <td>{{.Title}}</td>
+        <td>{{.ServiceName}}</td>
+        <td class="muted">{{friendlyTime .CreatedAt}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  {{end}}
+</div>
+{{end}}
