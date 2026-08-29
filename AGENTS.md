@@ -43,6 +43,16 @@ this file only holds things not already obvious from reading those or the code.
 - Demo screenshots/GIF in `docs/assets/` were captured from the real running app via headless
   Chrome (chromedp) driving actual HTTP requests and clicks — see the PR that introduced them
   for the capture script if you need to regenerate them after a UI change.
+- **Default branch is `master`**, not `main` — `.github/workflows/*` target `master`; if you
+  add a workflow or see one referencing `main`, that's a bug, not a style choice.
+- As of PR #7, the GitHub account hosting this repo has a billing/payment block that fails
+  every Actions job before a runner is even assigned (0 billed minutes, check-run annotation
+  cites "recent account payments have failed or your spending limit needs to be increased").
+  This blocks CI and the tag-triggered release workflow account-wide, independent of any code
+  change here — verify with `gh api repos/<owner>/<repo>/actions/runs/<id>/jobs` before
+  assuming a red check is a real test failure. Also, the repo is currently **private**, so the
+  Docker/release-binary README install paths intentionally point at "from source" until a
+  release actually ships — don't restore them without confirming a release exists.
 
 ## Maintaining this file
 
