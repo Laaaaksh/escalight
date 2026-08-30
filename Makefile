@@ -1,4 +1,4 @@
-.PHONY: build run test lint tidy clean icons
+.PHONY: build run test lint tidy clean icons demo
 
 BINARY := escalight
 MODULE := github.com/Laaaaksh/escalight
@@ -24,3 +24,6 @@ clean:
 
 icons:
 	go run scripts/genicons.go
+
+demo:
+	cd scripts/record-demo && npm install && npx playwright install chromium && npm run record

@@ -40,9 +40,11 @@ this file only holds things not already obvious from reading those or the code.
   htmx, re-download it and update `docs/THIRD_PARTY_NOTICES.md`'s version note.
 - **Session cookie auth only** (no OAuth) — this was a deliberate v1 cut to protect time spent
   on the escalation engine and notification channels, not an oversight.
-- Demo screenshots/GIF in `docs/assets/` were captured from the real running app via headless
-  Chrome (chromedp) driving actual HTTP requests and clicks — see the PR that introduced them
-  for the capture script if you need to regenerate them after a UI change.
+- `docs/assets/demo.mp4`/`demo.gif` are regenerated with `make demo` (or
+  `scripts/record-demo/`), a Playwright script that boots the real binary against a throwaway
+  SQLite file and a minimal local SMTP stub, drives the actual UI end to end, and converts the
+  capture with `ffmpeg`. Re-run it after any UI change that would make the recording stale;
+  `schedule-calendar.png` is a plain manual screenshot, not covered by this script.
 - **Default branch is `master`**, not `main` — `.github/workflows/*` target `master`; if you
   add a workflow or see one referencing `main`, that's a bug, not a style choice.
 - As of PR #7, the GitHub account hosting this repo has a billing/payment block that fails

@@ -20,6 +20,16 @@ button on the lock screen. No per-seat fee, no phone bill, one binary.
 
 </div>
 
+## Demo
+
+![Escalight demo](docs/assets/demo.gif)
+
+The clip shows the full escalation loop: creating a service, an on-call schedule, and a
+two-level escalation policy, then firing a real incident at the ingest webhook and watching it
+page the primary on-call, escalate to the secondary responder when unacknowledged, then get
+acknowledged and resolved with the timeline visible throughout. Full quality:
+[docs/assets/demo.mp4](docs/assets/demo.mp4).
+
 ## What it does
 
 - **Escalation policies**: notify person A, wait N minutes, escalate to person B, repeat or
@@ -38,16 +48,6 @@ button on the lock screen. No per-seat fee, no phone bill, one binary.
   you need after a 3am page, not a full postmortem tool.
 - **One binary, one SQLite file**: `go build`, run it, done. No Postgres, no Redis, no Node.js
   build step.
-
-<div align="center">
-<img src="docs/assets/escalight-demo.gif" alt="Escalight demo: a synthetic alert fires, appears as a triggered incident, then gets acknowledged with the timeline updating live" width="900">
-</div>
-
-*The GIF above is a real recording of the running app: a synthetic Prometheus Alertmanager
-alert POSTed at the webhook endpoint, appearing as a triggered incident, then acknowledged
-with the timeline updating live. It does not show an actual OS push notification banner —
-capturing a real lock-screen notification isn't practical to script — but web push is real
-and working; see [Configuration](#configuration).*
 
 <div align="center">
 <img src="docs/assets/schedule-calendar.png" alt="Escalight schedule page: a daily rotation editor and a two-week calendar view" width="900">
