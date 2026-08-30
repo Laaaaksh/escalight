@@ -65,7 +65,7 @@ async function submitAndWait(page, clickTarget) {
   await Promise.all([page.waitForNavigation(), page.click(clickTarget)]);
 }
 
-async function driveUI() {
+async function driveUI(serverReadyAt) {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 },
@@ -147,6 +147,18 @@ async function driveUI() {
     await page.locator("code.copy-key").first().textContent()
   ).trim();
 
+  // The escalation engine ticks on a fixed 15s cadence from server boot
+  // (internal/engine.Engine.Interval), not from when an incident is created.
+  // Firing at a random phase in that cycle can land right before a tick,
+  // making the level-1 and level-2 pages appear within a couple of seconds
+  // of each other — a real but misleading-looking "notified at once". Wait
+  // until just after a tick boundary so the incident starts a fresh ~15s
+  // window and the handoff reads as a genuine, visible timeout.
+  const TICK_MS = 15000;
+  const sinceReady = Date.now() - serverReadyAt;
+  const alignWait = TICK_MS - (sinceReady % TICK_MS) + 1500;
+  await pause(alignWait);
+
   // 6. Trigger a real incident through the ingest API, exactly as a monitoring
   // tool would.
   const triggerResponse = await context.request.post(genericUrl, {
@@ -161,23 +173,28 @@ async function driveUI() {
     throw new Error(`ingest API did not return an incident_id: ${JSON.stringify(triggerBody)}`);
   }
 
-  // 7. Watch it arrive, page the primary on-call, then escalate.
+  // 7. Level 1: it arrives and pages only the primary on-call. Hold here so
+  // the viewer clearly reads "triggered, one person notified" before anything
+  // else happens.
   await page.goto(BASE_URL + "/incidents");
-  await pause(2000);
+  await pause(1800);
   await page.goto(BASE_URL + "/incidents/" + incidentId);
-  await pause(3000);
+  await pause(3500);
 
-  // The escalation engine ticks every 15s (internal/engine.Engine.Interval);
-  // wait for at least one real tick so the second-level page genuinely fires.
-  await pause(16000);
+  // 8. Level 1 goes unacknowledged for the real ~15s window above, then the
+  // engine's next tick escalates to the secondary responder. Reload once that
+  // has genuinely happened and hold again so the new "notified Jordan" line
+  // reads as a distinct second event, not a simultaneous one.
+  await pause(13500);
   await page.reload();
   await pause(3200);
 
-  // 8. Acknowledge, then resolve, and let the final timeline sit on screen.
+  // 9. Acknowledge promptly — well within the next 15s tick — so the policy
+  // never runs out of steps, then resolve and let the final timeline sit.
   await submitAndWait(page, 'button:has-text("Acknowledge")');
   await pause(1800);
   await submitAndWait(page, 'button:has-text("Resolve")');
-  await pause(4500);
+  await pause(4000);
 
   await context.close();
   await browser.close();
@@ -282,7 +299,8 @@ async function main() {
 
   try {
     await waitForHttp(BASE_URL + "/", 15000);
-    await driveUI();
+    const serverReadyAt = Date.now();
+    await driveUI(serverReadyAt);
   } finally {
     cleanup();
   }
