@@ -34,7 +34,7 @@ this file only holds things not already obvious from reading those or the code.
   v1.
 - **All schedule/override/rotation times are UTC**, not per-schedule timezone. The `Timezone`
   column on `schedules` is stored but not yet used for conversion — this is a known, documented
-  v1 limitation (see README Configuration section), not a bug.
+  v1 limitation (see README Limitations section), not a bug.
 - **`internal/httpserver/static/htmx.min.js` is vendored, not fetched from a CDN** — the
   dashboard needs to work with zero external network dependency at request time. If you bump
   htmx, re-download it and update `docs/THIRD_PARTY_NOTICES.md`'s version note.
@@ -53,6 +53,11 @@ this file only holds things not already obvious from reading those or the code.
   assuming a red check is a real test failure. Also, the repo is currently **private**, so the
   Docker/release-binary README install paths intentionally point at "from source" until a
   release actually ships — don't restore them without confirming a release exists.
+- **No release has actually been tagged**, despite a PR title claiming one was cut — `git tag`,
+  `git ls-remote --tags origin`, and `gh api repos/<owner>/<repo>/releases` all come back empty.
+  CHANGELOG.md reflects this (everything sits under `## [Unreleased]`); don't trust a PR title
+  or commit message over `gh api`/`git tag` when deciding whether release-gated docs (Docker
+  install, release-binary install, a versioned CHANGELOG entry) should be restored.
 
 ## Maintaining this file
 

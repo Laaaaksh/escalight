@@ -13,7 +13,6 @@ button on the lock screen. No per-seat fee, no phone bill, one binary.
 [![Release](https://img.shields.io/github/v/release/Laaaaksh/escalight?color=green&display_name=tag)](https://github.com/Laaaaksh/escalight/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/go-1.26+-00ADD8?logo=go&logoColor=white)](go.mod)
-[![Docker](https://img.shields.io/badge/docker-ghcr.io-2496ED?logo=docker&logoColor=white)](#install)
 
 **[Install](#install) • [Usage](#usage) • [Configuration](#configuration) • [Changelog](CHANGELOG.md) • [Contributing](CONTRIBUTING.md) • [License](LICENSE)**
 
@@ -138,14 +137,27 @@ with its Request URL set to `<base-url>/integrations/slack/commands` and the sig
 above configured; the incoming-webhook notifications work with just the webhook URL, no app
 needed.
 
-Two things worth knowing about v1: **all schedule and override times are UTC** (no per-user
-timezone conversion yet), and **SMS/voice calling isn't supported** — those need a paid
-telephony provider (Twilio et al.), which would break the "free to run" premise. Email, Slack,
-Discord, and push cover the free channels; a documented bring-your-own-Twilio path is a
-natural fast-follow, not a v1 requirement.
-
 See [docs/EMAIL_INTEGRATION.md](docs/EMAIL_INTEGRATION.md) for wiring up email-to-alert with
 Postmark, Mailgun, or SendGrid.
+
+## Limitations
+
+Escalight is v1 and self-hosted first. Known gaps, stated plainly rather than discovered the
+hard way:
+
+- **No release artifacts yet.** No tagged release exists, so the Docker image and prebuilt
+  binaries don't exist — building from source is the only install path today. See
+  [Install](#install).
+- **Schedules are UTC-only.** Rotation and override times don't convert per user or per
+  schedule timezone yet, even though a `Timezone` field exists on schedules for the future.
+- **No SMS or voice paging.** Those need a paid telephony provider (Twilio et al.), which
+  would break the no-per-seat-fee premise — out of scope for v1, not silently assumed.
+- **Session-cookie auth only.** Email+password, no SSO/OAuth/SAML — a deliberate v1 cut to
+  spend the available time on the escalation engine and notification channels instead.
+- **No native mobile app.** The installable PWA delivers real lock-screen push notifications
+  with an Acknowledge button, but there's no App Store/Play Store app.
+- **No postmortem or retrospective tooling.** The incident timeline is an audit trail of who
+  was paged and what they did — not a postmortem document, template, or report generator.
 
 ## Changelog
 
