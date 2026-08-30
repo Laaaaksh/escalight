@@ -1,0 +1,12 @@
+{
+  "name": "escalight-demo-recorder",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Records a real end-to-end video walkthrough of Escalight for docs/assets/demo.{mp4,gif}. Dev-only tooling; not a dependency of the product build.",
+  "scripts": {
+    "record": "node record.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
