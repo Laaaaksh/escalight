@@ -69,7 +69,7 @@ jobs:
           version="${GITHUB_REF_NAME#v}"
           echo "tags=ghcr.io/${{ github.repository }}:${version},ghcr.io/${{ github.repository }}:latest" >> "$GITHUB_OUTPUT"
 
-      - uses: docker/build-push-action@v7.3.0
+      - uses: docker/build-push-action@v7.4.0
         with:
           context: .
           push: true
