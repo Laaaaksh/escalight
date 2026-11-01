@@ -1,4 +1,4 @@
-module github.com/Laaaaksh/escalight
+module github.com/attentionfs/escalight
 
 go 1.26.5
 

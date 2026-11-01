@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 // emailInPayload accepts either lowercase generic field names or Postmark's

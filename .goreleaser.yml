@@ -13,7 +13,7 @@ builds:
     goos: [linux, darwin, windows]
     goarch: [amd64, arm64]
     ldflags:
-      - -s -w -X github.com/Laaaaksh/escalight/internal/version.Version={{.Version}}
+      - -s -w -X github.com/attentionfs/escalight/internal/version.Version={{.Version}}
 
 archives:
   - id: escalight

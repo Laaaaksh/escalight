@@ -7,8 +7,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/engine"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/engine"
 )
 
 type schedulesListData struct {

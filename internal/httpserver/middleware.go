@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 const sessionCookieName = "escalight_session"

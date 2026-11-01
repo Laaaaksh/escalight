@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 type Dispatcher struct {

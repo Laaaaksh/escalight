@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 type genericPayload struct {

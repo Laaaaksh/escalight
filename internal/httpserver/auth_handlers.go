@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Laaaaksh/escalight/internal/auth"
+	"github.com/attentionfs/escalight/internal/auth"
 )
 
 type loginPageData struct {

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 func mustParse(t *testing.T, s string) time.Time {

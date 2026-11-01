@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Laaaaksh/escalight/internal/auth"
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/auth"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 type usersListData struct {

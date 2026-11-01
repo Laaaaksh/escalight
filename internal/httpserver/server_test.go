@@ -10,11 +10,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Laaaaksh/escalight/internal/config"
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/engine"
-	"github.com/Laaaaksh/escalight/internal/notify"
-	"github.com/Laaaaksh/escalight/internal/webhooks"
+	"github.com/attentionfs/escalight/internal/config"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/engine"
+	"github.com/attentionfs/escalight/internal/notify"
+	"github.com/attentionfs/escalight/internal/webhooks"
 )
 
 func newTestServer(t *testing.T) (*httptest.Server, *db.Store) {

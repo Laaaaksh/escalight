@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/notify"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/notify"
 )
 
 // sqlNullNow returns a valid NullString for "now + offset", used to force an

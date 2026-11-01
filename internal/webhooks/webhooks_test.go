@@ -8,9 +8,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/engine"
-	"github.com/Laaaaksh/escalight/internal/notify"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/engine"
+	"github.com/attentionfs/escalight/internal/notify"
 )
 
 func newTestIngestor(t *testing.T) (*Ingestor, *db.Store, *db.Service) {

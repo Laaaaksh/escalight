@@ -13,13 +13,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Laaaaksh/escalight/internal/config"
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/engine"
-	"github.com/Laaaaksh/escalight/internal/httpserver"
-	"github.com/Laaaaksh/escalight/internal/notify"
-	"github.com/Laaaaksh/escalight/internal/version"
-	"github.com/Laaaaksh/escalight/internal/webhooks"
+	"github.com/attentionfs/escalight/internal/config"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/engine"
+	"github.com/attentionfs/escalight/internal/httpserver"
+	"github.com/attentionfs/escalight/internal/notify"
+	"github.com/attentionfs/escalight/internal/version"
+	"github.com/attentionfs/escalight/internal/webhooks"
 )
 
 func main() {

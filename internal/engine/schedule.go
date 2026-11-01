@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 // OnCallUserID returns the user ID on call for sch at instant at, or "" if

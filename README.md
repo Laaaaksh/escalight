@@ -6,11 +6,11 @@
 then escalate — over email, Slack, Discord, or a real push notification with an Acknowledge
 button on the lock screen. No per-seat fee, no phone bill, one binary.
 
-[![Star this repo](https://img.shields.io/github/stars/Laaaaksh/escalight?style=for-the-badge&logo=github&label=star%20this%20repo&color=yellow)](https://github.com/Laaaaksh/escalight/stargazers)
+[![Star this repo](https://img.shields.io/github/stars/attentionfs/escalight?style=for-the-badge&logo=github&label=star%20this%20repo&color=yellow)](https://github.com/attentionfs/escalight/stargazers)
 [![No per-seat pricing](https://img.shields.io/badge/pricing-$0%2Fseat%2C%20forever-00ADD8?style=for-the-badge)](#why-escalight)
 
-[![CI](https://github.com/Laaaaksh/escalight/actions/workflows/ci.yml/badge.svg)](https://github.com/Laaaaksh/escalight/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/Laaaaksh/escalight?color=green&display_name=tag)](https://github.com/Laaaaksh/escalight/releases)
+[![CI](https://github.com/attentionfs/escalight/actions/workflows/ci.yml/badge.svg)](https://github.com/attentionfs/escalight/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/attentionfs/escalight?color=green&display_name=tag)](https://github.com/attentionfs/escalight/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/go-1.26+-00ADD8?logo=go&logoColor=white)](go.mod)
 
@@ -79,7 +79,7 @@ platform: paging that works, self-hosted, free.
 so the Docker image and release binaries below don't exist):
 
 ```bash
-git clone https://github.com/Laaaaksh/escalight.git
+git clone https://github.com/attentionfs/escalight.git
 cd escalight
 go build -o escalight .
 ./escalight serve
@@ -87,7 +87,7 @@ go build -o escalight .
 
 **Docker / release binary (coming soon):** once the first tagged release ships, `docker run
 ghcr.io/laaaaksh/escalight:latest` and a binary on the
-[Releases](https://github.com/Laaaaksh/escalight/releases) page will also work — see
+[Releases](https://github.com/attentionfs/escalight/releases) page will also work — see
 [CONTRIBUTING.md](CONTRIBUTING.md#releases) for how a release is cut.
 
 ## Usage
@@ -174,7 +174,7 @@ privately.
 
 ## Star this repo
 
-If Escalight is useful to you, [star it](https://github.com/Laaaaksh/escalight/stargazers) —
+If Escalight is useful to you, [star it](https://github.com/attentionfs/escalight/stargazers) —
 it helps others evaluating a PagerDuty/Opsgenie replacement find it.
 
 ## License

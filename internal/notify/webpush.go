@@ -5,7 +5,7 @@ import (
 
 	webpush "github.com/SherClockHolmes/webpush-go"
 
-	"github.com/Laaaaksh/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/db"
 )
 
 // EnsureVAPIDKeys returns the server's VAPID keypair, generating and

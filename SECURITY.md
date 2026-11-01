@@ -17,7 +17,7 @@ Please do **not** open a public GitHub issue for anything you believe is a secur
 
 Use GitHub's private vulnerability reporting instead:
 
-> https://github.com/Laaaaksh/escalight/security/advisories/new
+> https://github.com/attentionfs/escalight/security/advisories/new
 
 That link reaches the maintainer privately — the report, follow-up discussion, and any fix
 coordination stay confidential until a patched release ships.

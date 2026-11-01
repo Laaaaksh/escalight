@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/notify"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/notify"
 )
 
 // Engine advances triggered incidents through their escalation policy: it

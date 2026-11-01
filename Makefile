@@ -1,7 +1,7 @@
 .PHONY: build run test lint tidy clean icons demo
 
 BINARY := escalight
-MODULE := github.com/Laaaaksh/escalight
+MODULE := github.com/attentionfs/escalight
 
 build:
 	go build -o $(BINARY) .

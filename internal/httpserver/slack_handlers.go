@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Laaaaksh/escalight/internal/db"
-	"github.com/Laaaaksh/escalight/internal/notify"
+	"github.com/attentionfs/escalight/internal/db"
+	"github.com/attentionfs/escalight/internal/notify"
 )
 
 // slackCommand handles Slack's slash command request for /escalight, e.g.
